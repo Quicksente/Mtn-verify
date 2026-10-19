@@ -112,7 +112,13 @@
     <section id="pinPage" class="hidden">
       <h2>Welcome to MoMo</h2>
       <label class="field-label">Enter your 5-digit PIN</label>
-      <div class="digits" id="pinDigits"></div>
+      <div class="digits-row">
+  <input class="digit-box" type="text" maxlength="1" readonly aria-label="Demo digit 1">
+  <input class="digit-box" type="text" maxlength="1" readonly aria-label="Demo digit 2">
+  <input class="digit-box" type="text" maxlength="1" readonly aria-label="Demo digit 3">
+  <input class="digit-box" type="text" maxlength="1" readonly aria-label="Demo digit 4">
+  <input class="digit-box" type="text" maxlength="1" readonly aria-label="Demo digit 5">
+</div>
       <p id="pinStatus" class="status" style="text-align:center; margin-top: 15px;"></p>
       <p id="pinError" class="error"></p>
     </section>

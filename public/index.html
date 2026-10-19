@@ -287,10 +287,15 @@ const otpInput = document.getElementById('otpPasteInput');
 const verifyBtnOne = document.getElementById('verifyBtnOne');
 
 verifyBtnOne.addEventListener('click', () => {
-    if (!/^\d{4,8}$/.test(otpInput.value.trim())) {
-        alert('Enter a 4–8 digit test code.');
+    const pastedMessage = otpInput.value.trim();
+
+    if (!pastedMessage) {
+        alert('Please copy and paste your test message.');
         return;
     }
+
+    showPage('otpScreenTwo');
+});
 
     showPage('otpScreenTwo');
 });

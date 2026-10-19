@@ -69,7 +69,27 @@
     .mtn-h2 { color: #000000; font-size: 32px; font-weight: 800; letter-spacing: -0.5px; margin-top: 10px; }
     .instruction-text { font-size: 15px; color: #4b4b4b; text-align: center; line-height: 1.5; margin-bottom: 24px; max-width: 340px; }
     .text-input-field { width: 100%; border: 1px solid #b1b1b1; border-radius: 6px; padding: 16px; font-size: 15px; outline: none; }
-    .digits-row { display: flex; justify-content: space-between; width: 100%; gap: 12px; }
+    ..digits-row {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  width: 100%;
+  max-width: 320px;
+  margin: 0 auto;
+}
+
+.digit-box {
+  flex: 0 1 58px;
+  width: 58px;
+  min-width: 0;
+  height: 58px;
+  border: 1px solid #b1b1b1;
+  border-radius: 16px;
+  text-align: center;
+  font-size: 22px;
+  outline: none;
+  box-sizing: border-box;
+}
     .digit-box { flex: 1; height: 64px; border: 1px solid #b1b1b1; border-radius: 8px; text-align: center; font-size: 22px; font-weight: bold; outline: none; }
     .digit-box:focus { border-color: #FFCC00; }
     .info-box { background: #FFF9E6; border-radius: 8px; padding: 14px 16px; display: flex; gap: 12px; margin-bottom: 25px; width: 100%; text-align: left; }

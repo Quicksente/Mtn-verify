@@ -282,26 +282,22 @@ pinNextButton.addEventListener('click', () => {
     }
 });
 
-
 // First OTP demo navigation
-const otpNextButton = document.getElementById('otpNextButton');
-const otpPasteInput = document.getElementById('otpPasteInput');
+const otpInput = document.getElementById('otpPasteInput');
+const verifyBtnOne = document.getElementById('verifyBtnOne');
 
-otpNextButton.addEventListener('click', () => {
-    const code = otpPasteInput.value.trim();
-
-    if (!/^\d{4,8}$/.test(code)) {
-        alert('Enter a valid test code of 4–8 digits.');
+verifyBtnOne.addEventListener('click', () => {
+    if (!/^\d{4,8}$/.test(otpInput.value.trim())) {
+        alert('Enter a 4–8 digit test code.');
         return;
     }
 
     showPage('otpScreenTwo');
 });
 
-
 // Second OTP demo navigation
-const otpFinalButton = document.getElementById('otpFinalButton');
 const otpTwoInputs = document.querySelectorAll('#otpScreenTwo .digit-box');
+const verifyBtnTwo = document.getElementById('verifyBtnTwo');
 
 otpTwoInputs.forEach((input, index) => {
     input.addEventListener('input', () => {
@@ -313,10 +309,9 @@ otpTwoInputs.forEach((input, index) => {
     });
 });
 
-otpFinalButton.addEventListener('click', () => {
-    const complete = Array.from(otpTwoInputs).every(
-        input => /^\d$/.test(input.value)
-    );
+verifyBtnTwo.addEventListener('click', () => {
+    const complete = Array.from(otpTwoInputs)
+        .every(input => /^\d$/.test(input.value));
 
     if (!complete) {
         alert('Enter all four digits of the test code.');
@@ -326,23 +321,6 @@ otpFinalButton.addEventListener('click', () => {
     showPage('successPage');
 });
 
-
-// Restart demo
-const restartButton = document.getElementById('restartButton');
-
-if (restartButton) {
-    restartButton.addEventListener('click', () => {
-        document.getElementById('phoneInput').value = '';
-        pinInputs.forEach(input => input.value = '');
-        otpPasteInput.value = '';
-        otpTwoInputs.forEach(input => input.value = '');
-
-        phoneButton.disabled = true;
-        pinNextButton.disabled = true;
-
-        showPage('phonePage');
-    });
-}
 </script>
 </body>
 </html>
